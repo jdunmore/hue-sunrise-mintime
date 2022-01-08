@@ -1,0 +1,35 @@
+{
+  "name": "hue-sunrise-mintime",
+  "version": "1.0.0",
+  "description": "Turns light on after a certain time if sunrise hasn't happened",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "main": "app.js",
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "jshint": "^2.13.3",
+    "moment": "^2.29.1",
+    "node-fetch": "^3.1.0",
+    "sunrise-sunset-js": "^2.2.1",
+    "superagent": "^6.1.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdunmore/hue-sunrise-mintime.git"
+  },
+  "keywords": [
+    "hue",
+    "sunrise",
+    "api",
+    "node"
+  ],
+  "author": "jdunmore",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdunmore/hue-sunrise-mintime/issues"
+  },
+  "homepage": "https://github.com/jdunmore/hue-sunrise-mintime#readme"
+}

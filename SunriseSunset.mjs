@@ -1,8 +1,5 @@
 import fetch from 'node-fetch';
 
-
-
-
 const getSunrisesunset = async (date, latitude, longitude) => {
 
     const url = `https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&date=${date}`;

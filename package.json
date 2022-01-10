@@ -9,9 +9,11 @@
   "main": "app.js",
   "dependencies": {
     "dayjs": "^1.10.7",
+    "fs": "0.0.1-security",
     "jshint": "^2.13.3",
     "moment": "^2.29.1",
     "node-fetch": "^3.1.0",
+    "node-hue-api": "^5.0.0-beta.9",
     "sunrise-sunset-js": "^2.2.1",
     "superagent": "^6.1.0"
   },

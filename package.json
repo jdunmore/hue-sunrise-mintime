@@ -4,7 +4,7 @@
   "description": "Turns light on after a certain time if sunrise hasn't happened",
   "type": "module",
   "scripts": {
-    "start": "node app.js"
+    "start": "node --experimental-specifier-resolution=node app.js"
   },
   "main": "app.js",
   "dependencies": {
@@ -17,6 +17,7 @@
     "jshint": "^2.13.3",
     "node-fetch": "^3.1.0",
     "node-hue-api": "^5.0.0-beta.9",
+    "serverless": "^2.72.1",
     "superagent": "^6.1.0"
   },
   "devDependencies": {},

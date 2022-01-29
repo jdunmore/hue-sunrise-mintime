@@ -24,7 +24,7 @@ const getApi = async (authdata, putConfig) => {
         const maxExpiry = dayjs().add(2, 'day');
         if (apiExpiry.isBefore(dayjs().add(2, 'day'))) {
 
-            console.log(apiExpiry.format() + " is before " + maxExpiry.format());
+            console.log("Keys expired. API expiry " + apiExpiry.format() + " is before " + maxExpiry.format());
             api.remote.refreshTokens()
                 .catch(err => {
                     console.error('Failed to refresh tokens');
@@ -86,11 +86,11 @@ const getScheduleFadeCommand = async (groupId, onOrOff, startTime, name, descrip
 
 };
 
-let allSchedules = [];
+let allSchedules;
 
 const getAllSchedules = async (api) => {
 
-    if(allSchedules.length < 1) {
+    if(allSchedules === undefined) {
         try {
             console.log("Schedules empty, fetching them");
             allSchedules = await api.schedules.getAll();

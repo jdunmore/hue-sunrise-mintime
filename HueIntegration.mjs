@@ -125,7 +125,7 @@ const createSchedule = async (api, schedule) => {
 
 
 
-export { getApi, getScheduleFadeCommand, ON, OFF, createSchedule };
+export { getApi, getScheduleFadeCommand, ON, OFF, createSchedule, getAllSchedules };
 
 
 // api.schedules.getAll().then(allSchedules => {

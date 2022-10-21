@@ -1,18 +1,22 @@
 import dayjs from 'dayjs';
 import { getSunrisesunset } from './SunriseSunset.mjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 import { getConfig, putConfig } from './s3ConfigStorage.mjs';
-import { getApi, getScheduleFadeCommand, ON, OFF, createSchedule } from './HueIntegration.mjs';
+import { getApi, getScheduleFadeCommand, ON, OFF, createSchedule, getAllSchedules } from './HueIntegration.mjs';
 
 console.log("Starting API " + new dayjs().format("YYYY-MM-DD HH:mm:ss"));
 
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const sunSettings = {
     latitude: "51.8031083",
     longitude: "-0.2068872",
     tomorrow: dayjs().add(1, 'day'),
-    minSunrise: dayjs("07:01:00 AM", "h:mm:ss A").add(1, 'day')
+    minSunrise: dayjs.tz("07:01:00 AM", "h:mm:ss A", "Europe/London").add(1, 'day')
 };
 
 const sunData = await getSunrisesunset(
@@ -22,7 +26,10 @@ const sunData = await getSunrisesunset(
 );
 
 
-let sunrise = dayjs(sunData.sunrise, "h:mm:ss A").add(1, 'day');
+let sunrise = dayjs.tz(sunData.sunrise, "h:mm:ss A","UTC").add(1, 'day');
+
+console.log("Sunrise is" + sunrise.format('YYYY-MM-DDTHH:mm:ss'));
+console.log("Sunrise formatted is" + sunrise.tz("Europe/London").format('YYYY-MM-DDTHH:mm:ss'));
 
 
 if (sunSettings.minSunrise.isAfter(sunrise)) {
@@ -34,7 +41,15 @@ if (sunSettings.minSunrise.isAfter(sunrise)) {
     const config = await getConfig();
     const api = await getApi(config, putConfig);
 
-    const onTime = new dayjs().add(1, 'day');
+    // api.schedules.deleteSchedule(2);
+    // api.schedules.deleteSchedule(3);
+
+    const allS = await getAllSchedules(api);
+
+    
+    console.log(allS);
+
+    const onTime = new dayjs().add(1, 'day').tz("Europe/London", true);
     const onTimeFormatted = onTime.format('YYYY-MM-DDT06:45:00');
 
     const onSchedule = await getScheduleFadeCommand(
@@ -45,7 +60,7 @@ if (sunSettings.minSunrise.isAfter(sunrise)) {
         console.log("schedule already exists");  
     });
   
-    const offTimeFormatted = sunrise.format('YYYY-MM-DDTHH:mm:ss');
+    const offTimeFormatted = sunrise.tz("Europe/London").format('YYYY-MM-DDTHH:mm:ss');
 
     const offSchedule = await getScheduleFadeCommand(
         4, OFF, offTimeFormatted, 'Pre sunrise off', 'Automate morning off from hue API at ' + offTimeFormatted
@@ -59,10 +74,8 @@ if (sunSettings.minSunrise.isAfter(sunrise)) {
 
 //TODO
 
-//
-// 6. Use the servless scripts to export to AWS and run in a lambda as step function
 //     or, why not just run it in a node.js container?
 // 8. Remove un-used modules
-// 9. Work out timezones
+
 
 //node --experimental-specifier-resolution=node -r dotenv/config .\app.js

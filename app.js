@@ -79,3 +79,4 @@ if (sunSettings.minSunrise.isAfter(sunrise)) {
 
 
 //node --experimental-specifier-resolution=node -r dotenv/config .\app.js
+//docker run -it --rm --name my-running-script -v  C:\\Users\\jdunmore\\Documents\\Dev\\hue2:/usr/src/app -w /usr/src/app node:14 node --experimental-specifier-resolution=node -r dotenv/config app.js
